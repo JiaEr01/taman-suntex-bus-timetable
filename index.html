@@ -190,19 +190,12 @@
 
     // ✅ Register service worker
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('service-worker.js')
-        .then(() => console.log('Service Worker registered'))
-        .catch(err => console.error('SW registration failed:', err));
-    }
-
-    window.addEventListener("load", () => {
-      document.querySelectorAll(".periods").forEach(div => {
-        div.style.display = "none";
-        void div.offsetHeight; // trigger reflow
-        div.style.display = "flex";
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./service-worker.js')
+          .then(reg => console.log('Service worker registered:', reg))
+          .catch(err => console.error('Service worker failed:', err));
       });
-    });
+    }
   </script>
-
 </body>
 </html>
