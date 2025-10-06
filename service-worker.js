@@ -1,5 +1,5 @@
 // Versioned cache name - bump this when you change assets
-const CACHE_NAME = 'bus-timetable-v2';
+const CACHE_NAME = 'bus-timetable-v3';
 const urlsToCache = [
   './',
   './index.html',
