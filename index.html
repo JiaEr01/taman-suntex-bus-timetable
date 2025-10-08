@@ -191,22 +191,12 @@
       const hours = Math.floor(minsLeft / 60);
       const mins = minsLeft % 60;
 
-      let displayText = "";
-
-      if (hours > 0) {
-        displayText = `
-          <div style="color:#000000;">Next bus in</div>
-          <div style="font-size:2rem; font-weight:700; color:#155dfc;">${hours} hr ${mins} min</div>
-        `;
-      } else {
-        displayText = `
-          <div style="color:#000000;">Next bus in</div>
-          <div style="font-size:2.4rem; font-weight:700; color:#155dfc;">${mins} min</div>
-        `;
-      }
-
-      nextBusTimer.innerHTML = displayText;
-
+      nextBusTimer.innerHTML = `
+        <div style="color:#000000;">Next bus in</div>
+        <div style="font-size:${hours > 0 ? '2rem' : '2.4rem'}; font-weight:700; color:#155dfc;">
+          ${hours > 0 ? `${hours} hr ${mins} min` : `${mins} min`}
+        </div>
+      `;
     }
 
     function showRemaining() {
@@ -232,22 +222,23 @@
         card.style.display = "block";
         card.querySelectorAll(".time-pill").forEach(pill => pill.style.display = "inline-block");
       });
-      nextBusTimer.textContent = "Checking next service...";
+      updateNextBusTimer();
     }
 
     showRemainingBtn.addEventListener("click", showRemaining);
     resetBtn.addEventListener("click", resetTable);
 
-    setInterval(updateNextBusTimer, 30000);
-    updateNextBusTimer();
+    // Fast initial load
+    document.addEventListener("DOMContentLoaded", () => {
+      updateNextBusTimer();
+      setInterval(updateNextBusTimer, 30000);
+    });
 
-    // Register service worker
+    // Service worker
     if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./service-worker.js')
-          .then(reg => console.log('Service worker registered:', reg))
-          .catch(err => console.error('Service worker failed:', err));
-      });
+      navigator.serviceWorker.register('./service-worker.js')
+        .then(reg => console.log('Service worker registered:', reg))
+        .catch(err => console.error('Service worker failed:', err));
     }
   </script>
 </body>
