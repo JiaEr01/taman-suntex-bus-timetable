@@ -25,7 +25,7 @@
     h1 {
       font-size: 1.4rem;
       text-align: center;
-      color: #155dfc;
+      color: #000000;
       margin-bottom: 16px;
     }
     .controls {
@@ -190,8 +190,23 @@
       const minsLeft = nextBusTime - currentMinutes;
       const hours = Math.floor(minsLeft / 60);
       const mins = minsLeft % 60;
-      nextBusTimer.textContent =
-        hours > 0 ? `Next bus in ${hours} hr ${mins} min` : `Next bus in ${mins} min`;
+
+      let displayText = "";
+
+      if (hours > 0) {
+        displayText = `
+          <div style="color:#000000;">Next bus in</div>
+          <div style="font-size:2rem; font-weight:700; color:#155dfc;">${hours} hr ${mins} min</div>
+        `;
+      } else {
+        displayText = `
+          <div style="color:#000000;">Next bus in</div>
+          <div style="font-size:2.4rem; font-weight:700; color:#155dfc;">${mins} min</div>
+        `;
+      }
+
+      nextBusTimer.innerHTML = displayText;
+
     }
 
     function showRemaining() {
